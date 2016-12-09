@@ -27,9 +27,6 @@ void mycat(char *[]);
 void myhead(char *[]);
 void mytail(char *[]);
 void myrm(char *[]);
-void mysort(char *[]);
-void myps(char *[]);
-void myenv(char *[]);
 
 int main(void)
 {
@@ -49,16 +46,13 @@ int main(void)
 
 		prompt(buffer); // 프롬프트 출력
 
-		if(strlen(buffer) == 0) // 아무것도 입력하지 않을때
+		if(strlen(buffer) == 0) // if you enter anything, continue the procedure
 			continue;
 		if(strcmp(buffer, "exit") == 0) // 종료
 		{
 			fprintf(stdout, "Goodbye! Shellprogram is finished\n");
 			return 0;
 		}
-		strcpy(buffer2, buffer);
-		flag = parsing(buffer, commandSet); // 파싱
-
 		if(flag == 2)
 		{
 			additional_parsing(buffer2, commandSet, rear_command);
@@ -326,22 +320,6 @@ void my_command_execute(char *commandSet[], int flag)
 			myrm(commandSet);
 			exit(0);
 		}
-		else if(strcmp(commandSet[0], "mysort") == 0)
-		{
-			mysort(commandSet);
-			exit(0);
-		}
-		else if(strcmp(commandSet[0], "myps") == 0)
-		{
-			myps(commandSet);
-			exit(0);
-		}
-		else if(strcmp(commandSet[0], "myenv") ==0)
-		{
-			myenv(commandSet);
-			exit(0);
-		}
-
 		else
 		{
 			fprintf(stderr, "ERROR : My command is not correct\n");
@@ -410,8 +388,7 @@ void background_process_sigfunc(int signo)
 	pid_t pid; // 자식 프로세스의 pid를 저장하기 위한 변수
 	int status; // 자식 프로세스의 상태를 저장하기 위한 변수
 
-	while((pid = waitpid(-1, &status, WNOHANG)) > 0)
- // signal을 받아 이 함수를 실행시키고 함수가 실행되면 백그라운드 프로세스의 pid를 출력하면서 자식프로세스를 종료. 백그라운드 프로세스가 없을 때 까지 반복문이 실행
+	while((pid = waitpid(-1, &status, WNOHANG)) > 0) // signal을 받아 이 함수를 실행시키고 함수가 실행되면 백그라운드 프로세스의 pid를 출력하면서 자식프로세스를 종료. 백그라운드 프로세스가 없을 때 까지 반복문이 실행
 
 	{
 		printf("Background process finished : %d\n", pid);
